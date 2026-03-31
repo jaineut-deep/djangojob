@@ -4,27 +4,32 @@
 
 <!-- {% block header_title %}Skystore{% endblock %} -->
 
-<!-- {% block header_subtitle %}Skystore - это отличный вариант хранения ваших плагинов и примеров кода, который вы бы хотели
-            продать{% endblock %} -->
+{% block header_subtitle %}Ниже приведены товары из нашего каталога{% endblock %}
 
 {% block content %}
 <div class="row text-center">
-    <div class="col-3">
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">$ 140</h1>
-                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>- Неограниченная лицензия</li>
-                    <li>- Поддержка</li>
-                    <li>- Установка на сервер</li>
-                    <li>- Получение обновлений</li>
-                </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+    <div class="col-12 align-items">
+        {% for product in products %}
+        <div class="card mb-4 box-shadow" style="height: 14rem;">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="/media/{{ product.image }}" width="150 vw" class="img-fluid align-center rounded-start" alt="{{ product.name }}">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                          <li><h4>Наименование: {{ product.name }}</h4></li>
+                          <li><h4>Описание: {{ product.description|truncatechars:100 }}</h4></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 d-flex align-items-center">
+                    <a href="{% url 'catalog:pass_product_details' product.id %}"
+                       class="btn btn-lg btn-block btn-outline-primary">Подробнее</a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
