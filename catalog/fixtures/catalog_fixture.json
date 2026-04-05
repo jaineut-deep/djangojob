@@ -21,7 +21,7 @@
     "fields": {
         "name": "Samsung Galaxy S23 Ultra",
         "description": "256GB, Серый цвет, 200MP камера",
-        "image": "",
+        "image": "images/samsung_galaxy_s23_ultra.jpg",
         "category": 1,
         "purchase_price": 150000.0,
         "created_at": "2026-03-28",
@@ -34,7 +34,7 @@
     "fields": {
         "name": "55\" QLED 4K",
         "description": "Фоновая подсветка",
-        "image": "",
+        "image": "images/55_qled_4k.jpg",
         "category": 2,
         "purchase_price": 123000.0,
         "created_at": "2026-03-28",
@@ -47,7 +47,7 @@
     "fields": {
         "name": "Xiaomi Redmi Note 11",
         "description": "1024GB, Синий",
-        "image": "",
+        "image": "images/xiaomi_redmi_note_11.jpg",
         "category": 1,
         "purchase_price": 31000.0,
         "created_at": "2026-03-28",
@@ -60,7 +60,7 @@
     "fields": {
         "name": "55\" 4K UltraHD TCL",
         "description": "Беспроводная передача мультимедиа AirPlay 2",
-        "image": "",
+        "image": "images/55_4k_ultrahd_tcl.jpg",
         "category": 2,
         "purchase_price": 69999.0,
         "created_at": "2026-03-28",
