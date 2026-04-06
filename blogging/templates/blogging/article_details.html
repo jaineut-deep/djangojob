@@ -1,0 +1,38 @@
+{% extends 'blogging/base.html' %}
+
+{% block title %}Blog — Управление статьями{% endblock %}
+
+{% block header_title %}Blog — Управление статьями{% endblock %}
+
+{% block header_subtitle %}
+Подробное описание статьи:
+<br>"{{ article.title }}"
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-12 align-items">
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="/media/{{ article.preview }}" width="150 vw" class="img-fluid align-center rounded-start"
+                 alt="{{ article.title }}">
+            <a href="{% url 'blogging:article_update' article.pk %}" class="btn btn-secondary">Редактировать</a>
+            <a href="{% url 'blogging:article_delete' article.pk %}" class="btn btn-danger">Удалить</a>
+            <a href="{% url 'blogging:article_list' %}" class="btn btn-primary">Вернуться к списку</a>
+        </div>
+        <div class="col-8">
+            <h3 class="mb-4 justify-content-left">Заголовок: "{{ article.title }}"</h3>
+            <p class="justify-content-left">Дата создания: {{ article.created_at }}</p>
+            <p class="justify-content-left">Признак публикации:
+                {% if article.is_published %}
+                    Опубликована
+                {% else %}
+                    Неопубликована
+                {% endif %}
+            </p>
+            <p class="justify-content-left">Количество просмотров: {{ article.view_count }}</p>
+            <h3 class="justify-content-left">Содержимое:</h3>
+            <p>{{ article.content }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
