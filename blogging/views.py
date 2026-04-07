@@ -16,6 +16,9 @@ class ArticleListView(ListView):
     template_name = "blogging/article_list.html"
     context_object_name = "articles"
 
+    def get_queryset(self):
+        return Article.objects.filter(is_published=True)
+
 
 class ArticleDetailView(DetailView):
     model = Article
