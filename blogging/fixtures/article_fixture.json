@@ -1,0 +1,26 @@
+[
+{
+    "model": "blogging.article",
+    "pk": 1,
+    "fields": {
+        "title": "Общий интерфейс поиска атрибутов и элементов модуля operator в Python",
+        "content": "data/operator_module.txt",
+        "preview": "images/operator_pic.jpg",
+        "created_at": "2026-04-07T10:29:00.173Z",
+        "is_published": false,
+        "view_count": 0
+    }
+},
+{
+    "model": "blogging.article",
+    "pk": 2,
+    "fields": {
+        "title": "Обработка POST-запросов",
+        "content": "data/post_request.txt",
+        "preview": "images/post_request_pic.jpg",
+        "created_at": "2026-04-07T10:47:50.012Z",
+        "is_published": true,
+        "view_count": 0
+    }
+}
+]
