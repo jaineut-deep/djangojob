@@ -22,6 +22,12 @@ class ArticleDetailView(DetailView):
     template_name = "blogging/article_details.html"
     context_object_name = "article"
 
+    def get_object(self, queryset=None):
+        article = super().get_object(queryset)
+        article.view_count += 1
+        article.save()
+        return article
+
 
 class ArticleUpdateView(UpdateView):
     model = Article
