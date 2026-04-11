@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Skystore — Управление базой данных{% endblock %}
+
+{% block header_title %}Skystore — Удаление из базы данных{% endblock %}
+
+{% block header_subtitle %}
+Подтверждение удаления товара из базы данных:
+<br>"{{ product.name }}"
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-12 align-items">
+        <h1 class="mb-4">УДАЛИТЬ ЗАПИСЬ О ТОВАРЕ:</h1>
+        <p>Вы уверены, что хотите удалить "{{ product.name }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-danger">Удалить</button>
+            <a href="{% url 'catalog:pass_home' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
