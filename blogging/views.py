@@ -1,0 +1,47 @@
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from django.urls import reverse, reverse_lazy
+from blogging.models import Article
+
+
+class ArticleCreateView(CreateView):
+    model = Article
+    fields = ["title", "content", "preview", "is_published"]
+    template_name = "blogging/article_form.html"
+    success_url = reverse_lazy("blogging:article_list")
+
+
+class ArticleListView(ListView):
+    model = Article
+    template_name = "blogging/article_list.html"
+    context_object_name = "articles"
+
+    def get_queryset(self):
+        return Article.objects.filter(is_published=True)
+
+
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = "blogging/article_details.html"
+    context_object_name = "article"
+
+    def get_object(self, queryset=None):
+        article = super().get_object(queryset)
+        article.view_count += 1
+        article.save()
+        return article
+
+
+class ArticleUpdateView(UpdateView):
+    model = Article
+    fields = ["title", "content", "preview", "is_published"]
+    template_name = "blogging/article_form.html"
+
+    def get_success_url(self):
+        return reverse("blogging:article_details", kwargs={"pk": self.object.pk})
+
+
+class ArticleDeleteView(DeleteView):
+    model = Article
+    template_name = "blogging/article_confirm_delete.html"
+    success_url = reverse_lazy("blogging:article_list")

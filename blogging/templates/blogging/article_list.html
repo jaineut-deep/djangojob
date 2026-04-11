@@ -1,0 +1,43 @@
+{% extends 'blogging/base.html' %}
+
+{% block title %}Blog — Ресурсы{% endblock %}
+
+{% block header_title %}Blog — Ресурсы{% endblock %}
+
+{% block header_subtitle %}Здесь собраны все имеющиеся статьи IT-портала "Blog".{% endblock %}
+
+
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-12 align-items">
+        {% for article in articles %}
+        <div class="card mb-4 box-shadow" style="height: 14rem;">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="/media/{{ article.preview }}" width="150 vw" class="img-fluid align-center rounded-start"
+                         alt="{{ article.title }}">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                          <li><h4>Заголовок: {{ article.title }}</h4></li>
+                          <li><h4>Содержимое: {{ article.content|truncatechars:100 }}</h4></li>
+                          <li><h4>Дата создания: {{ article.created_at }}</h4></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 align-items-center d-grid gap-0 row-gap-3">
+                    <a href="{% url 'blogging:article_details' article.pk %}"
+                       class="btn btn-lg btn-block btn-outline-primary">Подробнее</a>
+                    <a href="{% url 'blogging:article_update' article.pk %}"
+                       class="btn btn-lg btn-secondary ml-3">Редактировать</a>
+                    <a href="{% url 'blogging:article_delete' article.pk %}"
+                       class="btn btn-lg btn-danger ml-1">Удалить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
