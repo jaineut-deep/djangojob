@@ -1,6 +1,6 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView, TemplateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from catalog.models import Product
 from .forms import ProductForm
@@ -42,7 +42,9 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/product_form.html"
-    success_url = reverse_lazy("catalog:pass_product_details")
+
+    def get_success_url(self):
+        return reverse("catalog:pass_product_details", kwargs={"pk": self.object.pk})
 
 
 class ProductDeleteView(DeleteView):
