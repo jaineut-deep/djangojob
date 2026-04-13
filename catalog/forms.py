@@ -1,4 +1,3 @@
-import re
 from django import forms
 from .models import Product
 
@@ -9,31 +8,42 @@ def validate_price(price):
         raise forms.ValidationError("Цена не может быть отрицательной")
 
 
-class ProductForm(forms.ModelForm):
+class MixinProductForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["name"].widget.attrs.update({"class": "form-control", "placeholder": "Введите наименование"})
+        self.fields["description"].widget.attrs.update({"class": "form-control", "placeholder": "Добавьте описание"})
+        self.fields["image"].widget.attrs.update({"class": "form-control"})
+        self.fields["category"].widget.attrs.update({"class": "form-control"})
+        self.fields["purchase_price"].widget.attrs.update({"class": "form-control", "placeholder": "Укажите цену"})
+
+
+class ProductForm(MixinProductForm, forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "image", "category"]
+        fields = ["name", "description", "image", "category", "purchase_price"]
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
         if name:
             for forbidden_word in forbidden_words:
-                pattern = re.compile(forbidden_word)
-                if re.search(pattern, name, flags=re.IGNORECASE):
+                if forbidden_word in name.lower():
                     raise forms.ValidationError("В Наименовании нельзя использовать запрещённые слова")
         return name
 
-    @classmethod
-    def clean_description(cls, cleaned_data=None):
-        description = cleaned_data.get("description")
+    def clean_description(self):
+        description = self.cleaned_data.get("description")
         if description:
             for forbidden_word in forbidden_words:
-                pattern = re.compile(forbidden_word)
-                if re.search(pattern, description, flags=re.IGNORECASE):
+                if forbidden_word in description.lower():
                     raise forms.ValidationError("В Описании нельзя использовать запрещённые слова")
         return description
 
-    purchase_price = forms.IntegerField(validators=[validate_price])
+    def clean_purchase_price(self):
+        purchase_price = self.cleaned_data.get("purchase_price")
+        if purchase_price < 0:
+            validate_price(purchase_price)
+        return purchase_price
 
     def clean(self):
         cleaned_data = super().clean()
