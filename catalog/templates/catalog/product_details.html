@@ -20,7 +20,8 @@
                     <li>- Описание: {{ product.description }}</li>
                     <li>- Изображение:
                         <div>
-                            <img class="card-img-top" src="/media/{{ product.image }}" alt="{{ product.name }}">
+                            <img class="card-img-top" src="{{ product.image.url }}" width="350 vw"
+                                 alt="{{ product.name }}">
                         </div>
                     </li>
                     <li>- Категория: {{ product.category }}</li>
@@ -28,7 +29,11 @@
                     <li>- Дата создания: {{ product.created_at }}</li>
                     <li>- Дата последнего изменения: {{ product.updated_at }}</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                <div class="col-md-12 align-items-center d-grid gap-0 row-gap-3">
+                    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-secondary">Редактировать</a>
+                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                    <a href="{% url 'catalog:pass_home' %}" class="btn btn-primary">Вернуться в Каталог</a>
+                </div>
             </div>
         </div>
     </div>
