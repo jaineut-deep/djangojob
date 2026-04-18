@@ -1,4 +1,5 @@
 <nav class="ms-5">
-    <a class="p-2 btn btn-outline-primary" href="/">Каталог</a>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:pass_home' %}">Каталог</a>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить новый товар</a>
     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:pass_contacts' %}">Контакты</a>
 </nav>
