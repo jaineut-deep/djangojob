@@ -7,7 +7,7 @@ class CustomUserCreationForm(UserCreationForm):
     phone_number = forms.CharField(max_length=15, required=False,
                                    help_text="Необязательное поле. Введите ваш номер телефона")
     country = forms.CharField(max_length=35, required=False,
-                                   help_text="Необязательное поле. Введите ваш страну")
+                                   help_text="Необязательное поле. Введите вашу страну")
     username = forms.CharField(max_length=50, required=True)
     usable_password = None
 

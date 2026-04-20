@@ -134,6 +134,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Groups and users
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend"
+]
 AUTH_USER_MODEL = "users.CustomUser"
 LOGIN_REDIRECT_URL = "catalog:pass_home"
 LOGIN_URL = "users:login"
