@@ -135,6 +135,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Groups and users
 
 AUTH_USER_MODEL = "users.CustomUser"
+LOGIN_REDIRECT_URL = "catalog:pass_home"
+LOGIN_URL = "users:login"
 
 
 # mailing settings
