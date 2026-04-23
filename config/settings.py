@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "catalog",
-    "blogging"
+    "blogging",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,25 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Groups and users
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend"
+]
+AUTH_USER_MODEL = "users.CustomUser"
+LOGIN_REDIRECT_URL = "catalog:pass_home"
+LOGIN_URL = "users:login"
+
+
+# mailing settings
+
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = True if os.getenv("EMAIL_USE_TLS") == "True" else False
+EMAIL_USE_SSL = False if os.getenv("EMAIL_USE_SSL") == "False" else True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
