@@ -21,6 +21,7 @@ class Product(models.Model):
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name="products",
                                  verbose_name="Категория")
     purchase_price = models.FloatField(verbose_name="Цена за покупку")
+    is_published = models.BooleanField(default=False, verbose_name="Статус публикации")
     created_at = models.DateField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateField(auto_now=True, verbose_name="Дата последнего изменения")
 
@@ -31,3 +32,6 @@ class Product(models.Model):
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
         ordering = ["category"]
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+        ]
