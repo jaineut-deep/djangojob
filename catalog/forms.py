@@ -16,12 +16,14 @@ class MixinProductForm(forms.ModelForm):
         self.fields["image"].widget.attrs.update({"class": "form-control"})
         self.fields["category"].widget.attrs.update({"class": "form-control"})
         self.fields["purchase_price"].widget.attrs.update({"class": "form-control", "placeholder": "Укажите цену"})
+        self.fields["is_published"].widget.attrs.update({"class": "form-check",
+                                                         "placeholder": "Укажите статус публикации"})
 
 
 class ProductForm(MixinProductForm, forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "image", "category", "purchase_price"]
+        fields = ["name", "description", "image", "category", "purchase_price", "is_published"]
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
