@@ -32,7 +32,8 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.owner = kwargs.pop("user", None)
+            if not self.owner:
+                raise ValueError("Владелец должен быть передан")
         super().save(*args, **kwargs)
 
     class Meta:
