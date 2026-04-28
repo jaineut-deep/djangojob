@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,7 +7,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from catalog.models import Product
-from .forms import ProductForm
+from .forms import ProductForm, ProductUserForm
 
 
 class UnpublishProductMixin:
@@ -48,21 +49,28 @@ class ContactsTemplateView(TemplateView):
 
 class ProductCreateView(LoginRequiredMixin, UnpublishProductMixin, PermissionRequiredMixin, CreateView):
     model = Product
-    form_class = ProductForm
+    form_class = ProductUserForm
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:pass_home")
     redirect_url = "catalog:product_create"
     permission_required = "catalog.add_product"
 
     def post(self, request, *args, **kwargs):
-        super().post(request, *args, **kwargs)
+        # super().post(request, *args, **kwargs)
         form = self.get_form()
         if form.is_valid():
             product = form.save(commit=False)
+            product.owner = self.request.user
             product.save()
             return redirect(self.success_url)
         else:
             return self.form_invalid(form)
+
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        product.owner = self.request.user
+        product.save()
+        return super().form_valid(form)
 
 
 class ProductListView(ListView):
@@ -84,10 +92,12 @@ class ProductUpdateView(LoginRequiredMixin, UnpublishProductMixin, UpdateView):
     redirect_url = "catalog:product_update"
 
     def post(self, request, *args, **kwargs):
+        # super().post(request, *args, **kwargs)
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
             product = form.save(commit=False)
+            product.owner = self.request.user
             product.save()
             return redirect(self.get_success_url())
         else:
@@ -95,6 +105,14 @@ class ProductUpdateView(LoginRequiredMixin, UnpublishProductMixin, UpdateView):
 
     def get_success_url(self):
         return reverse("catalog:pass_product_details", kwargs={"pk": self.object.pk})
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.groups.filter(name="Модератор продуктов").exists():
+            return ProductForm
+        if user == self.object.owner:
+            return ProductUserForm
+        raise PermissionDenied
 
 
 class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
