@@ -26,12 +26,22 @@
                     </li>
                     <li>- Категория: {{ product.category }}</li>
                     <li>- Цена за покупку: {{ product.purchase_price }}</li>
+                    <li>- Статус публикации:
+                        {% if product.is_published %}
+                            Опубликован
+                        {% else %}
+                            Неопубликован
+                        {% endif %}
+                    </li>
                     <li>- Дата создания: {{ product.created_at }}</li>
                     <li>- Дата последнего изменения: {{ product.updated_at }}</li>
                 </ul>
                 <div class="col-md-12 align-items-center d-grid gap-0 row-gap-3">
+                    {% if perms.catalog.delete_product and perms.catalog.can_unpublish_product or request.user == product.owner %}
                     <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-secondary">Редактировать</a>
                     <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                    {% else %}
+                    {% endif %}
                     <a href="{% url 'catalog:pass_home' %}" class="btn btn-primary">Вернуться в Каталог</a>
                 </div>
             </div>
