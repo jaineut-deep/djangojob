@@ -24,15 +24,9 @@
                                  alt="{{ product.name }}">
                         </div>
                     </li>
-                    <li>- Категория: {{ product.category }}</li>
+                    <li>- Категория: <a href="{% url 'catalog:pass_category_details' category.pk %}">{{ product.category }}</a></li>
                     <li>- Цена за покупку: {{ product.purchase_price }}</li>
-                    <li>- Статус публикации:
-                        {% if product.is_published %}
-                            Опубликован
-                        {% else %}
-                            Неопубликован
-                        {% endif %}
-                    </li>
+                    <li>- Статус публикации: {{ is_published|yesno:"Опубликован,Неопубликован" }}</li>
                     <li>- Дата создания: {{ product.created_at }}</li>
                     <li>- Дата последнего изменения: {{ product.updated_at }}</li>
                 </ul>
