@@ -161,7 +161,7 @@ if CACHE_ENABLED:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-            'LOCATION': 'redis://{os.getenv("REDIS_HOST", "127.0.0.1")}:{os.getenv("REDIS_PORT", "6379")}/'
-                        '{os.getenv("REDIS_DB", "1")}',
+            'LOCATION': f'redis://{os.getenv("REDIS_HOST", "127.0.0.1")}:{os.getenv("REDIS_PORT", "6379")}/'
+                        f'{os.getenv("REDIS_DB", "1")}',
         }
     }
