@@ -8,8 +8,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView, TemplateView
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
-from catalog.models import Product
+from catalog.models import Category, Product
 from .forms import ProductForm, ProductUserForm
+from .services import CategoryService
 
 
 class UnpublishProductMixin:
@@ -87,6 +88,12 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     template_name = "catalog/product_details.html"
     context_object_name = "product"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.object.category_id
+        context["category"] = Category.objects.get(id=category_id)
+        return context
+
 
 class ProductUpdateView(LoginRequiredMixin, UnpublishProductMixin, UpdateView):
     model = Product
@@ -123,3 +130,15 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     template_name = "catalog/product_confirm_delete.html"
     success_url = reverse_lazy("catalog:pass_home")
     permission_required = "catalog.delete_product"
+
+
+class CategoryDetailView(LoginRequiredMixin, DetailView):
+    model = Category
+    template_name = "catalog/category_details.html"
+    context_object_name = "category"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get("pk")
+        context["products"] = CategoryService.get_category_products(category_id)
+        return context
